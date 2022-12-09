@@ -5,16 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
-
 import com.example.studentlist.model.Model;
 import com.example.studentlist.model.Student;
-
 import java.util.List;
 
 public class StudentRecyclerList extends AppCompatActivity {
@@ -37,6 +36,11 @@ public class StudentRecyclerList extends AppCompatActivity {
             @Override
             public void onItemClick(int pos) {
                 Log.d("TAG", "row click " + pos);
+
+                Student selectedValue = data.get(pos);
+                Intent i = new Intent (getApplicationContext(), StudentDetailsActivity.class);
+                i.putExtra("student", selectedValue);
+                startActivity(i);
 
             }
         });

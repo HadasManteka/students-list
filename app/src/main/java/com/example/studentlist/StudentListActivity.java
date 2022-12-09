@@ -14,7 +14,6 @@ import com.example.studentlist.model.Student;
 import java.util.List;
 
 public class StudentListActivity extends AppCompatActivity {
-
     List<Student> data;
 
     @Override
@@ -35,8 +34,8 @@ public class StudentListActivity extends AppCompatActivity {
         }
 
         @Override
-        public Object getItem(int i) {
-            return null;
+        public Student getItem(int i) {
+            return data.get(i);
         }
 
         @Override
