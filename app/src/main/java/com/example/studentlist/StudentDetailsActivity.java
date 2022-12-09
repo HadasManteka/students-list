@@ -11,7 +11,6 @@ import com.example.studentlist.model.Student;
 
 public class StudentDetailsActivity extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +32,7 @@ public class StudentDetailsActivity extends AppCompatActivity {
         cb.setChecked(selectedStudent.cb);
         cb_text.setText(cb.isChecked() ? "checked" : "not checked");
 
-        int drawableId = this.getResources().getIdentifier(selectedStudent.avatarUrl, "drawable", getPackageName());
-        img.setImageResource(drawableId);
+        img.setImageResource(this.getResources().getIdentifier(selectedStudent.avatarUrl,
+                "drawable", getPackageName()));
     }
 }
