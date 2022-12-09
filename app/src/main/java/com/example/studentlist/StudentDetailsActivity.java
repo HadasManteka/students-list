@@ -15,6 +15,7 @@ public class StudentDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_details);
+        setTitle("Student details");
         Student selectedStudent = (Student) getIntent().getSerializableExtra("student");
 
         TextView id = findViewById(R.id.studentdetails_id);
@@ -32,7 +33,7 @@ public class StudentDetailsActivity extends AppCompatActivity {
         cb.setChecked(selectedStudent.cb);
         cb_text.setText(cb.isChecked() ? "checked" : "not checked");
 
-        img.setImageResource(this.getResources().getIdentifier(selectedStudent.avatarUrl,
+        img.setImageResource(this.getResources().getIdentifier(selectedStudent.imgUrl,
                 "drawable", getPackageName()));
     }
 }

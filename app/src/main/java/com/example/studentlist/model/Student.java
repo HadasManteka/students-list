@@ -7,14 +7,14 @@ public class Student implements Serializable {
     public String id;
     public String phone;
     public String address;
-    public String avatarUrl;
+    public String imgUrl;
     public Boolean cb;
 
     public Student(String name, String id, String avatarUrl,
                    Boolean cb, String phone, String address) {
         this.name = name;
         this.id = id;
-        this.avatarUrl = avatarUrl;
+        this.imgUrl = avatarUrl;
         this.cb = cb;
         this.address = address;
         this.phone = phone;
@@ -36,8 +36,8 @@ public class Student implements Serializable {
         return address;
     }
 
-    public String getAvatarUrl() {
-        return avatarUrl;
+    public String getImgUrl() {
+        return imgUrl;
     }
 
     public Boolean getCb() {
@@ -60,8 +60,8 @@ public class Student implements Serializable {
         this.address = address;
     }
 
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     public void setCb(Boolean cb) {

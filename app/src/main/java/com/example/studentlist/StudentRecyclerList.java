@@ -23,6 +23,7 @@ public class StudentRecyclerList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_recycler_list);
+        setTitle("Student list");
 
         data = Model.getInstance().getAllStudents();
         RecyclerView list = findViewById(R.id.studentrecycle_list);
@@ -35,8 +36,6 @@ public class StudentRecyclerList extends AppCompatActivity {
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int pos) {
-                Log.d("TAG", "row click " + pos);
-
                 Student selectedValue = data.get(pos);
                 Intent i = new Intent (getApplicationContext(), StudentDetailsActivity.class);
                 i.putExtra("student", selectedValue);
