@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import com.example.studentlist.model.Model;
@@ -23,8 +23,7 @@ public class StudentRecyclerList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_recycler_list);
-        setTitle("Student list");
-
+        setTitle("Student List");
         data = Model.getInstance().getAllStudents();
         RecyclerView list = findViewById(R.id.studentrecycle_list);
         list.setHasFixedSize(true);
@@ -62,6 +61,15 @@ public class StudentRecyclerList extends AppCompatActivity {
                     int pos = (int)cb.getTag();
                     Student st = data.get(pos);
                     st.cb = cb.isChecked();
+                }
+            });
+
+            Button addBt = findViewById(R.id.studentdetails_add_button);
+            addBt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent (getApplicationContext(), NewStudentActivity.class);
+                    startActivity(i);
                 }
             });
 

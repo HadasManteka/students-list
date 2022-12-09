@@ -127,7 +127,7 @@
         app:layout_constraintTop_toTopOf="@+id/studentdetails_cb" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/studentdetails_edit_button"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_marginEnd="8dp"
