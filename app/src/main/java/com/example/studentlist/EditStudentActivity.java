@@ -28,8 +28,6 @@ public class EditStudentActivity extends AppCompatActivity {
         Object givenStudent = getIntent().getSerializableExtra("student");
         this.selectedStudent = givenStudent instanceof Student ? ((Student) givenStudent) : null;
 
-
-
         TextView id = findViewById(R.id.edit_studentdetails_id);
         TextView name = findViewById(R.id.edit_studentdetails_name);
         TextView phone = findViewById(R.id.edit_studentdetails_phone);
