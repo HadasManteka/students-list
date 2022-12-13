@@ -14,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import com.example.studentlist.model.Model;
 import com.example.studentlist.model.Student;
+
 import java.util.List;
 
 public class StudentRecyclerList extends AppCompatActivity {
@@ -68,7 +69,8 @@ public class StudentRecyclerList extends AppCompatActivity {
             addBt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent (getApplicationContext(), NewStudentActivity.class);
+                    Intent i = new Intent (getApplicationContext(), EditStudentActivity.class);
+                    i.putExtra("student", "");
                     startActivity(i);
                 }
             });

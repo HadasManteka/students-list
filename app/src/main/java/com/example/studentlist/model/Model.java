@@ -33,8 +33,11 @@ public class Model {
     }
 
     public void updateStudentDetails(String originId, Student newStudent) {
-        if (data.stream().noneMatch(student -> student.id.equals(newStudent.id))) {
-            Student foundStudent = data.stream().filter(student -> student.id.equals(originId)).findFirst().get();
+        // if ID is not changed OR the new id does not exist already --> you can update originId
+        if (newStudent.id.equals(originId)
+                || data.stream().noneMatch(student -> student.id.equals(newStudent.id))) {
+            Student foundStudent = data.stream().filter(student -> student.id.equals(originId))
+                    .findFirst().get();
 
             foundStudent.setId(newStudent.id);
             foundStudent.setName(newStudent.name);

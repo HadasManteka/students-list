@@ -1,7 +1,5 @@
 package com.example.studentlist;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -10,6 +8,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.studentlist.model.Student;
 
@@ -32,7 +32,7 @@ public class StudentDetailsActivity extends AppCompatActivity {
         TextView name = findViewById(R.id.studentdetails_name);
         TextView phone = findViewById(R.id.studentdetails_phone);
         TextView address = findViewById(R.id.studentdetails_address);
-        CheckBox cb = findViewById(R.id.studentdetails_cb);
+        CheckBox cb = findViewById(R.id.person_checked_input);
         TextView cb_text = findViewById(R.id.studentdetails_cb_text);
         ImageView img = findViewById(R.id.studentdetails_image);
 
@@ -46,7 +46,7 @@ public class StudentDetailsActivity extends AppCompatActivity {
         img.setImageResource(this.getResources().getIdentifier(selectedStudent.imgUrl,
                 "drawable", getPackageName()));
 
-        Button editBut = findViewById(R.id.studentdetails_edit_button);
+        Button editBut = findViewById(R.id.studentdetails_save_button);
         editBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
