@@ -15,8 +15,6 @@ import com.example.studentlist.model.Model;
 import com.example.studentlist.model.Student;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.io.Serializable;
-
 public class EditStudentActivity extends AppCompatActivity {
     Student selectedStudent;
 
@@ -27,8 +25,6 @@ public class EditStudentActivity extends AppCompatActivity {
 
         Object givenStudent = getIntent().getSerializableExtra("student");
         this.selectedStudent = givenStudent instanceof Student ? ((Student) givenStudent) : null;
-
-
 
         TextView id = findViewById(R.id.edit_studentdetails_id);
         TextView name = findViewById(R.id.edit_studentdetails_name);
@@ -48,50 +44,77 @@ public class EditStudentActivity extends AppCompatActivity {
             name.setText(this.selectedStudent.name);
             phone.setText(this.selectedStudent.phone);
             address.setText(this.selectedStudent.address);
-            img.setImageResource(this.getResources().getIdentifier(this.selectedStudent.imgUrl,
-                    "drawable", getPackageName()));
-
             cb.setChecked(this.selectedStudent.cb);
             cb_text.setText(this.selectedStudent.cb ? "checked" : "not checked");
+            img.setImageResource(this.getResources().getIdentifier(this.selectedStudent.imgUrl,
+                    "drawable", getPackageName()));
         }
+        else {
+            img.setImageResource(this.getResources().getIdentifier("@drawable/avatar_icon",
+                    "drawable", getPackageName()));
+        }
+
+
+        String finalOriginalId = originalId;
+
+        // Show delete button only on edit student
+        Button deleteButton = findViewById(R.id.edit_studentdetails_delete_button);
+        deleteButton.setVisibility((finalOriginalId != null)? View.VISIBLE : View.GONE);
 
         // save details logic
         Button saveButton = findViewById(R.id.edit_studentdetails_save_button);
-        String finalOriginalId = originalId;
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Student newStudent = new Student(name.getText().toString(),
-                        id.getText().toString(), "", cb.isChecked(),
-                        phone.getText().toString(), address.getText().toString());
+        saveButton.setOnClickListener(view -> {
+            Student newStudent = new Student(name.getText().toString(),
+                    id.getText().toString(), "", cb.isChecked(),
+                    phone.getText().toString(), address.getText().toString());
 
-                if (finalOriginalId != null){
-                    Model.getInstance().updateStudentDetails(finalOriginalId, newStudent);
-                    Snackbar snackbar = Snackbar
-                            .make(view, "Saved Details!", Snackbar.LENGTH_SHORT);
-                    snackbar.show();
-                }
-                else {
-                    // create new
-                    Model.getInstance().addStudent(newStudent);
-                    Snackbar snackbar = Snackbar
-                            .make(view, "New Student Created!", Snackbar.LENGTH_SHORT);
-                    snackbar.show();
+            if (finalOriginalId != null) {
+                Model.getInstance().updateStudentDetails(finalOriginalId, newStudent);
+                Snackbar snackbar = Snackbar
+                        .make(view, "Saved Details!", Snackbar.LENGTH_SHORT);
+                snackbar.show();
+            } else {
+                // create new
+                Model.getInstance().addStudent(newStudent);
+                Snackbar snackbar = Snackbar
+                        .make(view, "New Student Created!", Snackbar.LENGTH_SHORT);
+                snackbar.show();
 
-                }
             }
         });
 
+        // Delete details logic
+        deleteButton.setOnClickListener(view -> {
+            if (finalOriginalId != null) {
+                Model.getInstance().deleteStudent(this.selectedStudent.id);
+                navigateToStudentList();
+            } else {
+                // create new
+                Snackbar snackbar = Snackbar
+                        .make(view, "Student does not exist!", Snackbar.LENGTH_SHORT);
+                snackbar.show();
+            }
+        });
+
+        // Cancel details logic
+        Button cancelButton = findViewById(R.id.edit_studentdetails_cancel_button);
+        cancelButton.setOnClickListener(view -> navigateToStudentList());
 
         // Title with back icon
-        setTitle(this.selectedStudent != null ?  "Edit Student" : "New Student");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle(this.selectedStudent != null ? "Edit Student" : "New Student");
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
-    public boolean onOptionsItemSelected(MenuItem item){
+    private void navigateToStudentList() {
+        Intent i = new Intent(this, StudentRecyclerList.class);
+        startActivity(i);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
         Intent myIntent = new Intent(getApplicationContext(), StudentRecyclerList.class);
         startActivityForResult(myIntent, 0);
         return true;
     }
-
 }
