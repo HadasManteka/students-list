@@ -28,8 +28,8 @@ public class Model {
         data.add(st);
     }
 
-    public void deleteStudent(Student st) {
-        data.remove(st);
+    public boolean deleteStudent(String studentId) {
+        return data.removeIf(student -> student.id.equals(studentId));
     }
 
     public void updateStudentDetails(String originId, Student newStudent) {
