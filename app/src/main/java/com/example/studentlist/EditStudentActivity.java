@@ -23,6 +23,9 @@ public class EditStudentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_student);
 
+        // Title with back icon
+        setTitle("Edit Student");
+
         Object givenStudent = getIntent().getSerializableExtra("student");
         this.selectedStudent = givenStudent instanceof Student ? ((Student) givenStudent) : null;
 
@@ -49,10 +52,8 @@ public class EditStudentActivity extends AppCompatActivity {
         img.setImageResource(this.getResources().getIdentifier(this.selectedStudent.imgUrl,
                 "drawable", getPackageName()));
 
-        String finalOriginalId = originalId;
-
         Button deleteButton = findViewById(R.id.edit_studentdetails_delete_button);
-        deleteButton.setVisibility((finalOriginalId != null) ? View.VISIBLE : View.GONE);
+        deleteButton.setVisibility((originalId != null) ? View.VISIBLE : View.GONE);
 
         // save details logic
         Button saveButton = findViewById(R.id.edit_studentdetails_save_button);
@@ -61,7 +62,7 @@ public class EditStudentActivity extends AppCompatActivity {
                     id.getText().toString(), "@drawable/avatar_icon", cb.isChecked(),
                     phone.getText().toString(), address.getText().toString());
             try {
-                Model.getInstance().updateStudentDetails(finalOriginalId, newStudent);
+                Model.getInstance().updateStudentDetails(originalId, newStudent);
                 Snackbar snackbar = Snackbar
                         .make(view, "Saved Details!", Snackbar.LENGTH_SHORT);
                 snackbar.show();
@@ -82,8 +83,6 @@ public class EditStudentActivity extends AppCompatActivity {
         Button cancelButton = findViewById(R.id.edit_studentdetails_cancel_button);
         cancelButton.setOnClickListener(view -> navigateToStudentList());
 
-        // Title with back icon
-        setTitle(this.selectedStudent != null ? "Edit Student" : "New Student");
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
