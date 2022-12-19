@@ -38,29 +38,19 @@ public class EditStudentActivity extends AppCompatActivity {
 
         ImageView img = findViewById(R.id.studentdetails_image);
 
-        String originalId = null;
-
-        // if given a student - means we need to edit. otherwise - new student
-        if (this.selectedStudent != null) {
-            // populate fields
-            originalId = this.selectedStudent.id;
-            id.setText(this.selectedStudent.id);
-            name.setText(this.selectedStudent.name);
-            phone.setText(this.selectedStudent.phone);
-            address.setText(this.selectedStudent.address);
-            cb.setChecked(this.selectedStudent.cb);
-            cb_text.setText(this.selectedStudent.cb ? "checked" : "not checked");
-            img.setImageResource(this.getResources().getIdentifier(this.selectedStudent.imgUrl,
-                    "drawable", getPackageName()));
-        } else {
-            img.setImageResource(this.getResources().getIdentifier("@drawable/avatar_icon",
-                    "drawable", getPackageName()));
-        }
-
+        // populate fields
+        String originalId = this.selectedStudent.id;
+        id.setText(this.selectedStudent.id);
+        name.setText(this.selectedStudent.name);
+        phone.setText(this.selectedStudent.phone);
+        address.setText(this.selectedStudent.address);
+        cb.setChecked(this.selectedStudent.cb);
+        cb_text.setText(this.selectedStudent.cb ? "checked" : "not checked");
+        img.setImageResource(this.getResources().getIdentifier(this.selectedStudent.imgUrl,
+                "drawable", getPackageName()));
 
         String finalOriginalId = originalId;
 
-        // Show delete button only on edit student
         Button deleteButton = findViewById(R.id.edit_studentdetails_delete_button);
         deleteButton.setVisibility((finalOriginalId != null) ? View.VISIBLE : View.GONE);
 
@@ -71,20 +61,11 @@ public class EditStudentActivity extends AppCompatActivity {
                     id.getText().toString(), "@drawable/avatar_icon", cb.isChecked(),
                     phone.getText().toString(), address.getText().toString());
             try {
-                if (finalOriginalId != null) {
-                    Model.getInstance().updateStudentDetails(finalOriginalId, newStudent);
-                    Snackbar snackbar = Snackbar
-                            .make(view, "Saved Details!", Snackbar.LENGTH_SHORT);
-                    snackbar.show();
-                } else {
-                    // create new
-                    Model.getInstance().addStudent(newStudent);
-                    Snackbar snackbar = Snackbar
-                            .make(view, "New Student Created!", Snackbar.LENGTH_SHORT);
-                    snackbar.show();
-
-                }
-            } catch(Exception e) {
+                Model.getInstance().updateStudentDetails(finalOriginalId, newStudent);
+                Snackbar snackbar = Snackbar
+                        .make(view, "Saved Details!", Snackbar.LENGTH_SHORT);
+                snackbar.show();
+            } catch (Exception e) {
                 Snackbar snackbar = Snackbar
                         .make(view, "Error: " + e.getMessage(), Snackbar.LENGTH_SHORT);
                 snackbar.show();
@@ -93,15 +74,8 @@ public class EditStudentActivity extends AppCompatActivity {
 
         // Delete details logic
         deleteButton.setOnClickListener(view -> {
-            if (finalOriginalId != null) {
-                Model.getInstance().deleteStudent(this.selectedStudent.id);
-                navigateToStudentList();
-            } else {
-                // create new
-                Snackbar snackbar = Snackbar
-                        .make(view, "Student does not exist!", Snackbar.LENGTH_SHORT);
-                snackbar.show();
-            }
+            Model.getInstance().deleteStudent(this.selectedStudent.id);
+            navigateToStudentList();
         });
 
         // Cancel details logic
