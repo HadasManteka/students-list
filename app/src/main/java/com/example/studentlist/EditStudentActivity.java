@@ -32,6 +32,10 @@ public class EditStudentActivity extends AppCompatActivity {
         TextView address = findViewById(R.id.edit_studentdetails_address);
         TextView cb_text = findViewById(R.id.edit_studentdetails_cb_text);
         CheckBox cb = findViewById(R.id.edit_person_checked_input);
+        cb.setOnClickListener(view -> {
+            cb_text.setText(cb.isChecked() ? "checked" : "not checked");
+        });
+
         ImageView img = findViewById(R.id.studentdetails_image);
 
         String originalId = null;
@@ -48,8 +52,7 @@ public class EditStudentActivity extends AppCompatActivity {
             cb_text.setText(this.selectedStudent.cb ? "checked" : "not checked");
             img.setImageResource(this.getResources().getIdentifier(this.selectedStudent.imgUrl,
                     "drawable", getPackageName()));
-        }
-        else {
+        } else {
             img.setImageResource(this.getResources().getIdentifier("@drawable/avatar_icon",
                     "drawable", getPackageName()));
         }
@@ -59,27 +62,32 @@ public class EditStudentActivity extends AppCompatActivity {
 
         // Show delete button only on edit student
         Button deleteButton = findViewById(R.id.edit_studentdetails_delete_button);
-        deleteButton.setVisibility((finalOriginalId != null)? View.VISIBLE : View.GONE);
+        deleteButton.setVisibility((finalOriginalId != null) ? View.VISIBLE : View.GONE);
 
         // save details logic
         Button saveButton = findViewById(R.id.edit_studentdetails_save_button);
         saveButton.setOnClickListener(view -> {
             Student newStudent = new Student(name.getText().toString(),
-                    id.getText().toString(), "", cb.isChecked(),
+                    id.getText().toString(), "@drawable/avatar_icon", cb.isChecked(),
                     phone.getText().toString(), address.getText().toString());
+            try {
+                if (finalOriginalId != null) {
+                    Model.getInstance().updateStudentDetails(finalOriginalId, newStudent);
+                    Snackbar snackbar = Snackbar
+                            .make(view, "Saved Details!", Snackbar.LENGTH_SHORT);
+                    snackbar.show();
+                } else {
+                    // create new
+                    Model.getInstance().addStudent(newStudent);
+                    Snackbar snackbar = Snackbar
+                            .make(view, "New Student Created!", Snackbar.LENGTH_SHORT);
+                    snackbar.show();
 
-            if (finalOriginalId != null) {
-                Model.getInstance().updateStudentDetails(finalOriginalId, newStudent);
+                }
+            } catch(Exception e) {
                 Snackbar snackbar = Snackbar
-                        .make(view, "Saved Details!", Snackbar.LENGTH_SHORT);
+                        .make(view, "Error: " + e.getMessage(), Snackbar.LENGTH_SHORT);
                 snackbar.show();
-            } else {
-                // create new
-                Model.getInstance().addStudent(newStudent);
-                Snackbar snackbar = Snackbar
-                        .make(view, "New Student Created!", Snackbar.LENGTH_SHORT);
-                snackbar.show();
-
             }
         });
 
