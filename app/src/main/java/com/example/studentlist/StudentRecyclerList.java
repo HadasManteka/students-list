@@ -69,7 +69,7 @@ public class StudentRecyclerList extends AppCompatActivity {
             addBt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent (getApplicationContext(), EditStudentActivity.class);
+                    Intent i = new Intent (getApplicationContext(), NewStudentActivity.class);
                     i.putExtra("student", "");
                     startActivity(i);
                 }
