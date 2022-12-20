@@ -33,15 +33,12 @@ public class StudentRecyclerList extends AppCompatActivity {
         StudentRecycleAdapter adapter = new StudentRecycleAdapter();
         list.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(int pos) {
-                Student selectedValue = data.get(pos);
-                Intent i = new Intent (getApplicationContext(), StudentDetailsActivity.class);
-                i.putExtra("student", selectedValue);
-                startActivity(i);
+        adapter.setOnItemClickListener(pos -> {
+            Student selectedValue = data.get(pos);
+            Intent i = new Intent (getApplicationContext(), StudentDetailsActivity.class);
+            i.putExtra("student", selectedValue);
+            startActivity(i);
 
-            }
         });
     }
 
@@ -56,31 +53,22 @@ public class StudentRecyclerList extends AppCompatActivity {
             idTv = itemView.findViewById(R.id.studentlistrow_id_tv);
             nameTv = itemView.findViewById(R.id.studentlistrow_name_tv);
             cb = itemView.findViewById(R.id.studentlistrow_cb);
-            cb.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int pos = (int)cb.getTag();
-                    Student st = data.get(pos);
-                    st.cb = cb.isChecked();
-                }
+            cb.setOnClickListener(view -> {
+                int pos = (int)cb.getTag();
+                Student st = data.get(pos);
+                st.cb = cb.isChecked();
             });
 
             Button addBt = findViewById(R.id.studentdetails_add_button);
-            addBt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent i = new Intent (getApplicationContext(), NewStudentActivity.class);
-                    i.putExtra("student", "");
-                    startActivity(i);
-                }
+            addBt.setOnClickListener(view -> {
+                Intent i = new Intent (getApplicationContext(), NewStudentActivity.class);
+                i.putExtra("student", "");
+                startActivity(i);
             });
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int pos = getAdapterPosition();
-                    listener.onItemClick(pos);
-                }
+            itemView.setOnClickListener(view -> {
+                int pos = getAdapterPosition();
+                listener.onItemClick(pos);
             });
         }
 
