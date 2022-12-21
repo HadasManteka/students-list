@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.studentlist.model.Student;
 
+import java.util.Objects;
+
 public class StudentDetailsActivity extends AppCompatActivity {
 
     Student selectedStudent;
@@ -24,7 +26,7 @@ public class StudentDetailsActivity extends AppCompatActivity {
 
         // Title with back icon
         setTitle("Student Details");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         this.selectedStudent = (Student) getIntent().getSerializableExtra("student");
 
@@ -47,13 +49,10 @@ public class StudentDetailsActivity extends AppCompatActivity {
                 "drawable", getPackageName()));
 
         Button editBut = findViewById(R.id.studentdetails_save_button);
-        editBut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), EditStudentActivity.class);
-                i.putExtra("student", selectedStudent);
-                startActivity(i);
-            }
+        editBut.setOnClickListener(view -> {
+            Intent i = new Intent(getApplicationContext(), EditStudentActivity.class);
+            i.putExtra("student", selectedStudent);
+            startActivity(i);
         });
     }
 
