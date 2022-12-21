@@ -55,10 +55,11 @@ public class NewStudentActivity extends AppCompatActivity implements StudentActi
 
         // Cancel details logic
         Button cancelButton = findViewById(R.id.edit_studentdetails_cancel_button);
-        cancelButton.setOnClickListener(view -> navigateToStudentList());
+        cancelButton.setOnClickListener(view -> onCancel());
     }
 
-    private void navigateToStudentList() {
+    @Override
+    public void onCancel() {
         Intent i = new Intent(this, StudentRecyclerList.class);
         startActivity(i);
     }

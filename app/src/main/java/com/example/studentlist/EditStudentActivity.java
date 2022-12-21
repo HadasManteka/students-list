@@ -73,15 +73,16 @@ public class EditStudentActivity extends AppCompatActivity implements StudentAct
         // Delete details logic
         deleteButton.setOnClickListener(view -> {
             Model.getInstance().deleteStudent(this.selectedStudent.id);
-            navigateToStudentList();
+            onCancel();
         });
 
         // Cancel details logic
         Button cancelButton = findViewById(R.id.edit_studentdetails_cancel_button);
-        cancelButton.setOnClickListener(view -> navigateToStudentList());
+        cancelButton.setOnClickListener(view -> onCancel());
     }
 
-    private void navigateToStudentList() {
+    @Override
+    public void onCancel() {
         Intent i = new Intent(this, StudentRecyclerList.class);
         startActivity(i);
     }

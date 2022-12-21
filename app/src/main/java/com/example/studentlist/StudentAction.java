@@ -4,4 +4,5 @@ import android.view.View;
 
 public interface StudentAction {
     void onSave(View view);
+    void onCancel();
 }
