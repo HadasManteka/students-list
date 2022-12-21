@@ -17,7 +17,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
 
-public class NewStudentActivity extends AppCompatActivity {
+public class NewStudentActivity extends AppCompatActivity implements StudentAction{
 
     private TextView id;
     private TextView name;
@@ -69,7 +69,8 @@ public class NewStudentActivity extends AppCompatActivity {
         return true;
     }
 
-    private void onSave(View view) {
+    @Override
+    public void onSave(View view) {
         Student newStudent = new Student(name.getText().toString(),
                 id.getText().toString(), "@drawable/avatar_icon", cb.isChecked(),
                 phone.getText().toString(), address.getText().toString());
