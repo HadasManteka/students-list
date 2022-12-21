@@ -35,6 +35,7 @@ public class StudentDetailsActivity extends AppCompatActivity {
         TextView phone = findViewById(R.id.studentdetails_phone);
         TextView address = findViewById(R.id.studentdetails_address);
         CheckBox cb = findViewById(R.id.person_checked_input);
+        cb.setClickable(false);
         TextView cb_text = findViewById(R.id.studentdetails_cb_text);
         ImageView img = findViewById(R.id.studentdetails_image);
 
