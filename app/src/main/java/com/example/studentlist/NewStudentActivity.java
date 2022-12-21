@@ -28,7 +28,7 @@ public class NewStudentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_student);
+        setContentView(R.layout.activity_new_student);
 
         // Title with back icon
         setTitle("New Student");
