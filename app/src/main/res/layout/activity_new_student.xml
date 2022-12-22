@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".NewStudentActivity">
 
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -16,6 +15,5 @@
         <include layout="@layout/activity_edit_student"/>
 
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

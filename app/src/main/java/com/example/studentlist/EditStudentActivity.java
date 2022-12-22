@@ -15,8 +15,18 @@ import com.example.studentlist.model.Model;
 import com.example.studentlist.model.Student;
 import com.google.android.material.snackbar.Snackbar;
 
-public class EditStudentActivity extends AppCompatActivity {
-    Student selectedStudent;
+import java.util.Objects;
+
+public class EditStudentActivity extends AppCompatActivity implements StudentAction{
+
+    private Student selectedStudent;
+    private TextView id;
+    private TextView name;
+    private TextView phone;
+    private TextView address;
+    private CheckBox cb;
+    private String originalId;
+    private TextView cb_text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,30 +35,31 @@ public class EditStudentActivity extends AppCompatActivity {
 
         // Title with back icon
         setTitle("Edit Student");
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         Object givenStudent = getIntent().getSerializableExtra("student");
         this.selectedStudent = givenStudent instanceof Student ? ((Student) givenStudent) : null;
 
-        TextView id = findViewById(R.id.edit_studentdetails_id);
-        TextView name = findViewById(R.id.edit_studentdetails_name);
-        TextView phone = findViewById(R.id.edit_studentdetails_phone);
-        TextView address = findViewById(R.id.edit_studentdetails_address);
-        TextView cb_text = findViewById(R.id.edit_studentdetails_cb_text);
-        CheckBox cb = findViewById(R.id.edit_person_checked_input);
+        id = findViewById(R.id.edit_studentdetails_id);
+        name = findViewById(R.id.edit_studentdetails_name);
+        phone = findViewById(R.id.edit_studentdetails_phone);
+        address = findViewById(R.id.edit_studentdetails_address);
+        cb_text = findViewById(R.id.edit_studentdetails_cb_text);
+        cb = findViewById(R.id.edit_person_checked_input);
         cb.setOnClickListener(view -> {
-            cb_text.setText(cb.isChecked() ? "checked" : "not checked");
+            setText(cb);
         });
 
-        ImageView img = findViewById(R.id.studentdetails_image);
-
         // populate fields
-        String originalId = this.selectedStudent.id;
+        originalId = this.selectedStudent.id;
         id.setText(this.selectedStudent.id);
         name.setText(this.selectedStudent.name);
         phone.setText(this.selectedStudent.phone);
         address.setText(this.selectedStudent.address);
         cb.setChecked(this.selectedStudent.cb);
-        cb_text.setText(this.selectedStudent.cb ? "checked" : "not checked");
+        setText(cb);
+
+        ImageView img = findViewById(R.id.studentdetails_image);
         img.setImageResource(this.getResources().getIdentifier(this.selectedStudent.imgUrl,
                 "drawable", getPackageName()));
 
@@ -57,38 +68,21 @@ public class EditStudentActivity extends AppCompatActivity {
 
         // save details logic
         Button saveButton = findViewById(R.id.edit_studentdetails_save_button);
-        saveButton.setOnClickListener(view -> {
-            Student newStudent = new Student(name.getText().toString(),
-                    id.getText().toString(), "@drawable/avatar_icon", cb.isChecked(),
-                    phone.getText().toString(), address.getText().toString());
-            try {
-                Model.getInstance().updateStudentDetails(originalId, newStudent);
-                Snackbar snackbar = Snackbar
-                        .make(view, "Saved Details!", Snackbar.LENGTH_SHORT);
-                snackbar.show();
-            } catch (Exception e) {
-                Snackbar snackbar = Snackbar
-                        .make(view, "Error: " + e.getMessage(), Snackbar.LENGTH_SHORT);
-                snackbar.show();
-            }
-        });
+        saveButton.setOnClickListener(this::onSave);
 
         // Delete details logic
         deleteButton.setOnClickListener(view -> {
             Model.getInstance().deleteStudent(this.selectedStudent.id);
-            navigateToStudentList();
+            onCancel();
         });
 
         // Cancel details logic
         Button cancelButton = findViewById(R.id.edit_studentdetails_cancel_button);
-        cancelButton.setOnClickListener(view -> navigateToStudentList());
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+        cancelButton.setOnClickListener(view -> onCancel());
     }
 
-    private void navigateToStudentList() {
+    @Override
+    public void onCancel() {
         Intent i = new Intent(this, StudentRecyclerList.class);
         startActivity(i);
     }
@@ -97,5 +91,23 @@ public class EditStudentActivity extends AppCompatActivity {
         Intent myIntent = new Intent(getApplicationContext(), StudentRecyclerList.class);
         startActivityForResult(myIntent, 0);
         return true;
+    }
+
+    @Override
+    public void onSave(View view) {
+        Student updatedStudent = new Student(name.getText().toString(),
+                id.getText().toString(), "@drawable/avatar_icon", cb.isChecked(),
+                phone.getText().toString(), address.getText().toString());
+        try {
+            Model.getInstance().updateStudentDetails(originalId, updatedStudent);
+            Snackbar.make(view, "Saved Details!", Snackbar.LENGTH_SHORT).show();
+            originalId = id.getText().toString();
+        } catch (Exception e) {
+            Snackbar.make(view, "Error: " + e.getMessage(), Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
+    private void setText(CheckBox cb) {
+        cb_text.setText(cb.isChecked() ? "checked" : "not checked");
     }
 }
